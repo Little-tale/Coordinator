@@ -43,12 +43,15 @@ extension RootCoordinator {
             print("ase")
             let nextView = RootViewController()
             owner.next(viewController: nextView)
-            owner.counting(num: 1)
             nextView.baseView.setLabelText(String(owner.count))
             owner.setRootAction(root: nextView)
         }), for: .touchUpInside)
         
+        root.baseView.backButton.addAction(UIAction.guardSelf(self, handler: { owner, action in
+            owner.back(animated: true)
+        }),for: .touchUpInside)
     }
+    
     private func counting(num: Int) {
         count += num
     }

@@ -7,11 +7,4 @@
 
 import UIKit
 
-final class RootViewController: BaseViewController<BaseView> {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        baseView.setLabelText("first, CoordinatorView!")
-    }
-    
-}
+final class RootViewController: BaseViewController<BaseView> {}

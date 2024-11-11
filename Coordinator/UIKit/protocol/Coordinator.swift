@@ -24,6 +24,14 @@ extension Coordinator {
         navigationController?.popViewController(animated: animated)
     }
     
+    func backTo(num: Int, animated: Bool = true) {
+        guard let target = navigationController?.viewControllers[safe: num] else {
+            print("nil target")
+            return
+        }
+        navigationController?.popToViewController(target, animated: true)
+    }
+    
     /// 루트로 이동
     func rootPop(animated: Bool = true) {
         navigationController?.popToRootViewController(animated: animated)

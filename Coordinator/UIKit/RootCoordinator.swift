@@ -50,9 +50,36 @@ extension RootCoordinator {
         root.baseView.backButton.addAction(UIAction.guardSelf(self, handler: { owner, action in
             owner.back(animated: true)
         }),for: .touchUpInside)
+        
+        root.baseView.nextCoordinatorButton.addAction(UIAction.guardSelf(self, handler: { owner, action in
+            let nextNavigationController = UINavigationController()
+            let nextCoordinator = SubCoordinator(navigationController: nextNavigationController)
+            nextCoordinator.backDelegate = owner
+            owner.childCoordinators.append(nextCoordinator)
+            
+            nextNavigationController.modalPresentationStyle = .fullScreen
+            owner.present(viewController: nextNavigationController, animated: false)
+        }), for: .touchUpInside)
+        
+        
+        root.baseView.backCoordinatorButton.addAction(UIAction.guardSelf(self, handler: { owner, action in
+            print(owner.childCoordinators)
+            if !owner.childCoordinators.isEmpty {
+                owner.dismiss(animated: true)
+                owner.childCoordinators.removeLast()
+            }
+        }), for: .touchUpInside)
     }
     
     private func counting(num: Int) {
         count += num
+    }
+}
+
+extension RootCoordinator: BackCoordinatorDelegate {
+    
+    func backCoordinatorDidFinish(_ coordinator: Coordinator) {
+        self.childCoordinators = self.childCoordinators.filter{ $0 !== coordinator }
+        dismiss(animated: false)
     }
 }
